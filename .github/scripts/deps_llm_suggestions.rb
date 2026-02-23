@@ -14,7 +14,7 @@ if GEMINI_API_KEY.nil? || GEMINI_API_KEY.empty?
 end
 
 def call_gemini(prompt)
-  uri = URI("https://generativelanguage.googleapis.com/v1/models/#{MODEL}:generateContent?key=#{GEMINI_API_KEY}")
+  uri = URI("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=#{GEMINI_API_KEY}")
 
   body = {
     contents: [
