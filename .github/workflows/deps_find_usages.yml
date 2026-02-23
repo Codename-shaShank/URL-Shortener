@@ -50,12 +50,22 @@ jobs:
       - name: Format Gemini suggestions into changelog
         run: ruby .github/scripts/format_changelog_entry.rb
 
+      - name: Check if gemini_suggestions.md exists
+        id: check_suggestions
+        run: |
+          if [ -f "gemini_suggestions.md" ]; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "⚠️ gemini_suggestions.md not found - skipping suggestion organization and comment"
+          fi
+
       - name: Organize suggestions by gem
-        if: success()
+        if: steps.check_suggestions.outputs.exists == 'true'
         run: ruby .github/scripts/organize_suggestions.rb
 
       - name: Post Gemini suggestions as PR comment
-        if: always()
+        if: steps.check_suggestions.outputs.exists == 'true'
         uses: peter-evans/create-or-update-comment@v4
         with:
           token: ${{ github.token }}

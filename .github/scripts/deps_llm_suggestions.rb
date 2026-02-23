@@ -10,7 +10,8 @@ MODEL = "gemini-1.5-flash-latest"
 
 if GEMINI_API_KEY.nil? || GEMINI_API_KEY.empty?
   warn "GEMINI_API_KEY is not set"
-  exit 1
+  File.write("gemini_suggestions.md", "## Configuration Error\n\n`GEMINI_API_KEY` is not configured.\n\nPlease add it to your GitHub repository secrets to enable AI-powered suggestions.")
+  exit 0
 end
 
 def call_gemini(prompt)
@@ -35,16 +36,26 @@ def call_gemini(prompt)
   res = http.request(req)
   unless res.is_a?(Net::HTTPSuccess)
     warn "Gemini API error: #{res.code} #{res.body}"
-    exit 1
+    return "## Error\n\nFailed to get suggestions from Gemini API.\n\nError: #{res.code} - #{res.message}\n\nPlease check your GEMINI_API_KEY and try again."
   end
 
   data = JSON.parse(res.body)
   text = data.dig("candidates", 0, "content", "parts", 0, "text")
-  text || ""
+  text || "## No Response\n\nGemini API returned no suggestions."
+rescue StandardError => e
+  warn "Exception calling Gemini: #{e.message}"
+  "## Error\n\nException while calling Gemini API: #{e.message}\n\n#{e.backtrace.first(3).join("\n")}"
 end
 
 gem_review   = File.exist?("gem_review.md")   ? File.read("gem_review.md")   : ""
 deps_usages  = File.exist?("deps_usages.md")  ? File.read("deps_usages.md")  : ""
+
+# Check if we have enough data to proceed
+if gem_review.strip.empty?
+  warn "No gem_review.md content found - skipping LLM suggestions"
+  File.write("gemini_suggestions.md", "## No Suggestions\n\nNo gem changes detected or gem_review.md is empty.")
+  exit 0
+end
 
 prompt = <<~PROMPT
 You are helping update a small Ruby/Rails app after dependency upgrades.
