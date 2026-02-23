@@ -6,7 +6,7 @@ require "net/http"
 require "uri"
 
 GEMINI_API_KEY = ENV["GEMINI_API_KEY"]
-MODEL = "gemini-2.5-flash-latest" 
+MODEL = "gemini-1.5-flash-latest" 
 
 if GEMINI_API_KEY.nil? || GEMINI_API_KEY.empty?
   warn "GEMINI_API_KEY is not set"
