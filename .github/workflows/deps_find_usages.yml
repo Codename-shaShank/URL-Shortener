@@ -81,6 +81,10 @@ jobs:
         if: steps.check_suggestions.outputs.exists == 'true'
         run: ruby .github/scripts/organize_suggestions.rb
 
+      - name: Auto-apply code suggestions
+        if: steps.check_suggestions.outputs.exists == 'true'
+        run: ruby .github/scripts/auto_apply_suggestions.rb
+
       - name: Post Gemini suggestions as PR comment
         if: steps.check_suggestions.outputs.exists == 'true'
         uses: peter-evans/create-or-update-comment@v4
@@ -104,6 +108,7 @@ jobs:
 
           - Updated TODO comments for changed gem dependencies
           - Added LLM suggestions for version-specific code updates
+          - Auto-applied code changes from AI suggestions where possible
           - See gemini_suggestions.md for detailed upgrade guidance"
           
           echo "✓ Changes committed. Pushing to branch: ${{ steps.pr-info.outputs.branch }}"
