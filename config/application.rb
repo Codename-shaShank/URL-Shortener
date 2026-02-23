@@ -1,3 +1,5 @@
+# TODO(deps): Review usages of 'railties' in this file for version-specific changes.
+# TODO(deps): Review usages of 'rails' in this file for version-specific changes.
 require_relative "boot"
 
 require "rails/all"

@@ -1,3 +1,4 @@
+# TODO(deps): Review usages of 'rails' in this file for version-specific changes.
 ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
 require "rails/test_help"
