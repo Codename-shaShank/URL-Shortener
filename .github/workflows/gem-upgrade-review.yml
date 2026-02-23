@@ -60,12 +60,3 @@ jobs:
           token: ${{ github.token }}
           issue-number: ${{ github.event.pull_request.number }}
           body-file: ${{ env.GEM_REVIEW_PATH }}
-
-      - name: Add `/deps-find-usages` comment to trigger next workflow
-        if: github.event.pull_request != null
-        uses: peter-evans/create-or-update-comment@v4
-        with:
-          token: ${{ github.token }}
-          issue-number: ${{ github.event.pull_request.number }}
-          body: |
-            /deps-find-usages - Triggered by gem-upgrade-review automation
