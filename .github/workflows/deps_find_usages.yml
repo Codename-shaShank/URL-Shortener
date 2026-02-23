@@ -26,10 +26,27 @@ jobs:
           echo "${{ github.event.comment.body }}"
           echo "On PR: #${{ github.event.issue.number }}"
 
+      - name: Get PR branch name
+        id: pr-info
+        run: |
+          # Get PR details using GitHub API
+          PR_DATA=$(curl -s -H "Authorization: token ${{ github.token }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.issue.number }}")
+          
+          BRANCH_NAME=$(echo "$PR_DATA" | jq -r '.head.ref')
+          REPO_FULL_NAME=$(echo "$PR_DATA" | jq -r '.head.repo.full_name')
+          
+          echo "branch=$BRANCH_NAME" >> $GITHUB_OUTPUT
+          echo "repo=$REPO_FULL_NAME" >> $GITHUB_OUTPUT
+          echo "✓ Branch: $BRANCH_NAME from $REPO_FULL_NAME"
+
       - name: Check out PR branch
         uses: actions/checkout@v4
         with:
-          ref: refs/pull/${{ github.event.issue.number }}/head
+          repository: ${{ steps.pr-info.outputs.repo }}
+          ref: ${{ steps.pr-info.outputs.branch }}
+          token: ${{ github.token }}
           fetch-depth: 0
 
       - name: Set up Ruby
@@ -77,13 +94,25 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
+          
           if git diff --cached --quiet; then
-            echo "No changes to commit."
+            echo "✓ No changes to commit."
             exit 0
           fi
+          
           git commit -m "chore(deps): Add TODO comments and Gemini suggestions for upgraded gems
 
           - Updated TODO comments for changed gem dependencies
           - Added LLM suggestions for version-specific code updates
           - See gemini_suggestions.md for detailed upgrade guidance"
-          git push
+          
+          echo "✓ Changes committed. Pushing to branch: ${{ steps.pr-info.outputs.branch }}"
+          
+          # Push to the PR branch
+          if git push origin HEAD:${{ steps.pr-info.outputs.branch }}; then
+            echo "✓ Successfully pushed changes to PR branch"
+          else
+            echo "❌ Failed to push changes. This may be a fork or permission issue."
+            echo "Changes are committed but not pushed. Please manually push or check permissions."
+            exit 1
+          fi
