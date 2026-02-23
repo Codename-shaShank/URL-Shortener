@@ -1,3 +1,4 @@
+# TODO(deps): Review usages of 'date' in this file for version-specific changes.
 class Link < ApplicationRecord
   has_many :views, dependent: :destroy
   belongs_to :user, optional: true

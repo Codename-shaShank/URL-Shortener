@@ -1,4 +1,10 @@
 # frozen_string_literal: true
+# TODO(deps): Review usages of 'bcrypt' in this file for version-specific changes.
+# TODO(deps): Review usages of 'warden' in this file for version-specific changes.
+# TODO(deps): Review usages of 'timeout' in this file for version-specific changes.
+# TODO(deps): Review usages of 'devise' in this file for version-specific changes.
+# TODO(deps): Review usages of 'mail' in this file for version-specific changes.
+# TODO(deps): Review usages of 'date' in this file for version-specific changes.
 
 class TurboFailureApp < Devise::FailureApp
   def respond

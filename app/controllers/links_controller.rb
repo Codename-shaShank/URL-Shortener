@@ -1,3 +1,4 @@
+# TODO(deps): Review usages of 'date' in this file for version-specific changes.
 class LinksController < ApplicationController
   before_action :authenticate_user!, only: [:edit, :update, :destroy]
   before_action :set_link, only: [:show, :edit, :update, :destroy]
