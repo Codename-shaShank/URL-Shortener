@@ -1,3 +1,3 @@
 # Error Upgrade Suggestions
 
-Failed to get suggestions from Gemini API.
+Exception while calling Gemini API: Net::ReadTimeout with #<TCPSocket:(closed)>
