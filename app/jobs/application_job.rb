@@ -1,3 +1,4 @@
+# TODO(deps): Review usages of 'pp' in this file for version-specific changes.
 class ApplicationJob < ActiveJob::Base
   # Automatically retry jobs that encountered a deadlock
   # retry_on ActiveRecord::Deadlocked
