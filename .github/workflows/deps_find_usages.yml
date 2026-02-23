@@ -47,6 +47,21 @@ jobs:
       - name: Run LLM suggestions (Gemini)
         run: ruby .github/scripts/deps_llm_suggestions.rb
 
+      - name: Format Gemini suggestions into changelog
+        run: ruby .github/scripts/format_changelog_entry.rb
+
+      - name: Organize suggestions by gem
+        if: success()
+        run: ruby .github/scripts/organize_suggestions.rb
+
+      - name: Post Gemini suggestions as PR comment
+        if: always()
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          token: ${{ github.token }}
+          issue-number: ${{ github.event.issue.number }}
+          body-file: gemini_suggestions.md
+          
       - name: Commit and push changes (if any)
         run: |
           git config user.name "github-actions[bot]"
@@ -56,5 +71,9 @@ jobs:
             echo "No changes to commit."
             exit 0
           fi
-          git commit -m "Add deps usages and Gemini suggestions for upgraded gems"
+          git commit -m "chore(deps): Add TODO comments and Gemini suggestions for upgraded gems
+
+          - Updated TODO comments for changed gem dependencies
+          - Added LLM suggestions for version-specific code updates
+          - See gemini_suggestions.md for detailed upgrade guidance"
           git push

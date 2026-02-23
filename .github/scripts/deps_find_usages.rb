@@ -103,9 +103,40 @@ usages = find_usages(changed, files)
 
 if usages.empty? || usages.values.all?(&:empty?)
   puts "No obvious usages of changed gems found."
+  # Still create an empty file for downstream processing
+  File.write("deps_usages.md", "## Dependency Usages\n\nNo obvious usages found in source code.\n")
   exit 0
 end
 
 insert_todo_comments(usages)
 
 puts "Inserted TODO comments for files using changed gems."
+
+# Create a markdown file documenting where each gem is used
+usage_markdown = +"## Dependency Usages\n\n"
+usage_markdown << "This document lists where changed gems are referenced in the codebase.\n\n"
+
+usages.each do |gem, occurrences|
+  next if occurrences.empty?
+
+  usage_markdown << "### #{gem}\n\n"
+
+  # Group by file
+  by_file = occurrences.group_by { |o| o[:file] }
+  by_file.each do |file, file_occs|
+    usage_markdown << "**File:** `#{file}`\n\n"
+    usage_markdown << "| Line | Code |\n"
+    usage_markdown << "|------|------|\n"
+    
+    file_occs.each do |occ|
+      # Escape markdown special chars
+      line_content = occ[:line].strip.gsub(/[|`]/, '\\\\\\0')[0..100]
+      usage_markdown << "| #{occ[:line_no]} | `#{line_content}` |\n"
+    end
+
+    usage_markdown << "\n"
+  end
+end
+
+File.write("deps_usages.md", usage_markdown)
+puts "Wrote dependency usages to deps_usages.md"
