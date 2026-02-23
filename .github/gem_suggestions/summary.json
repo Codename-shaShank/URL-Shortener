@@ -1,0 +1,10 @@
+{
+  "generated_at": "2026-02-23T12:19:55+00:00",
+  "total_gems": 1,
+  "gems": [
+    "Error"
+  ],
+  "suggestions_file": "gemini_suggestions.md",
+  "output_directory": ".github/gem_suggestions",
+  "instructions": "Review each .md file in output_directory and apply changes manually"
+}

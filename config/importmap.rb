@@ -1,3 +1,6 @@
+# TODO(deps): Review usages of 'chartkick' in this file for version-specific changes.
+# TODO(deps): Review usages of 'turbo-rails' in this file for version-specific changes.
+# TODO(deps): Review usages of 'rails' in this file for version-specific changes.
 # Pin npm packages by running ./bin/importmap
 
 pin "application"

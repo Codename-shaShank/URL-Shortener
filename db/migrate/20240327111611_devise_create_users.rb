@@ -1,4 +1,7 @@
 # frozen_string_literal: true
+# TODO(deps): Review usages of 'rack' in this file for version-specific changes.
+# TODO(deps): Review usages of 'mail' in this file for version-specific changes.
+# TODO(deps): Review usages of 'date' in this file for version-specific changes.
 
 class DeviseCreateUsers < ActiveRecord::Migration[7.0]
   def change
