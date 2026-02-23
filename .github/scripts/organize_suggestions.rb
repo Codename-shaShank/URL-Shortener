@@ -3,6 +3,8 @@
 # Helper script to parse and organize Gemini suggestions for manual implementation
 
 require "json"
+require "fileutils"
+require "time"
 
 SUGGESTIONS_FILE = "gemini_suggestions.md"
 OUTPUT_DIR = ".github/gem_suggestions"
@@ -24,13 +26,32 @@ gems = content.scan(/^## ([^\n]+)/).flatten
 puts "📋 Found suggestions for #{gems.size} gem(s):"
 puts
 
+# Helper to sanitize filename
+def sanitize_filename(name)
+  # Remove or replace invalid filename characters
+  sanitized = name.downcase
+                  .gsub(/[*:\/\\|?"<>]/, '')  # Remove invalid chars
+                  .gsub(/[&,]/, '_')           # Replace separators with underscore
+                  .gsub(/\s+/, '_')            # Replace spaces with underscore
+                  .gsub(/_+/, '_')             # Collapse multiple underscores
+                  .gsub(/^_|_$/, '')           # Remove leading/trailing underscores
+  
+  # Truncate if too long (max 200 chars for filename)
+  if sanitized.length > 200
+    sanitized = sanitized[0..196] + "_etc"
+  end
+  
+  sanitized
+end
+
 gems.each do |gem|
   # Extract content for this gem
   gem_pattern = /^## #{Regexp.escape(gem)}\n\n(.*?)(?=^##|$)/m
   gem_content = content.match(gem_pattern)&.captures&.first || ""
 
-  # Save to individual file for easy reference
-  file_path = File.join(OUTPUT_DIR, "#{gem.downcase.gsub(/\s+/, '_')}.md")
+  # Save to individual file for easy reference - sanitize filename
+  safe_filename = sanitize_filename(gem)
+  file_path = File.join(OUTPUT_DIR, "#{safe_filename}.md")
   File.write(file_path, "# #{gem} Upgrade Suggestions\n\n#{gem_content}")
 
   # Extract code blocks to show number of changes

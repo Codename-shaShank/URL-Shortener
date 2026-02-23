@@ -4,6 +4,7 @@
 
 require "time"
 require "json"
+require "fileutils"
 
 CHANGELOG_PATH = ENV["CHANGELOG_PATH"] || "docs/dependency-upgrades-changelog.md"
 GEMINI_SUGGESTIONS_PATH = "gemini_suggestions.md"
