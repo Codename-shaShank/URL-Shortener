@@ -3,6 +3,7 @@
 # Helper script to parse and organize Gemini suggestions for manual implementation
 
 require "json"
+require "fileutils"
 
 SUGGESTIONS_FILE = "gemini_suggestions.md"
 OUTPUT_DIR = ".github/gem_suggestions"
