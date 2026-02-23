@@ -4,6 +4,7 @@
 
 require "json"
 require "fileutils"
+require "time"
 
 SUGGESTIONS_FILE = "gemini_suggestions.md"
 OUTPUT_DIR = ".github/gem_suggestions"
