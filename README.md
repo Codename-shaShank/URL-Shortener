@@ -30,9 +30,16 @@ This project uses an automated system to handle dependency upgrades from Dependa
 ### Quick Start
 When a Dependabot PR appears:
 1. Read the gem change summary (automatically posted as comment)
-2. Wait for detailed suggestions (posted a few minutes later)
-3. Review and apply suggested code changes
-4. Run tests and merge
+2. **Manually comment** `/deps-find-usages` when ready
+3. **⚠️ System will automatically modify your code** based on AI suggestions
+4. Review all changes, run tests, and merge
+
+### ⚠️ IMPORTANT: Auto-Apply Feature
+The system now **automatically modifies your application code** when triggered. 
+- Changes are based on AI suggestions
+- **Always review changes before merging!**
+- **Test thoroughly** - the AI might make mistakes
+- See [docs/AUTO_APPLY_WARNING.md](./docs/AUTO_APPLY_WARNING.md) for full details
 
 ### For More Information
 - 📖 **Complete Guide:** [DEPENDENCY_AUTOMATION.md](./DEPENDENCY_AUTOMATION.md)
@@ -44,12 +51,12 @@ When a Dependabot PR appears:
 Dependabot PR
   ↓ (automatic)
 Analyze gem changes → Post summary comment
-  ↓ (automatic)
-Find usages → Get LLM suggestions → Update changelog
+  ↓ (YOU comment /deps-find-usages)
+Find usages → Get LLM suggestions → Auto-apply code changes → Update changelog
   ↓
-You review & apply suggestions
+Review auto-applied changes
   ↓
-Merge PR
+Test thoroughly & merge
 ```
 
 ### Required Setup
