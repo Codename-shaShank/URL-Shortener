@@ -1,3 +1,8 @@
+# TODO(deps): Review usages of 'i18n' in this file for version-specific changes.
+# TODO(deps): Review usages of 'erb' in this file for version-specific changes.
+# TODO(deps): Review usages of 'rails' in this file for version-specific changes.
+# TODO(deps): Review usages of 'mail' in this file for version-specific changes.
+# TODO(deps): Review usages of 'pp' in this file for version-specific changes.
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do

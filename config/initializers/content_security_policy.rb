@@ -1,3 +1,5 @@
+# TODO(deps): Review usages of 'rails' in this file for version-specific changes.
+# TODO(deps): Review usages of 'pp' in this file for version-specific changes.
 # Be sure to restart your server when you modify this file.
 
 # Define an application-wide content security policy.

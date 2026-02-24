@@ -1,3 +1,4 @@
+# TODO(deps): Review usages of 'pp' in this file for version-specific changes.
 class TurboDeviseController < ApplicationController
   class Responder < ActionController::Responder
     def to_turbo_stream

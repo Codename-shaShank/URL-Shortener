@@ -1,3 +1,4 @@
+# TODO(deps): Review usages of 'pp' in this file for version-specific changes.
 class ViewsController < ApplicationController
   before_action :set_link
 

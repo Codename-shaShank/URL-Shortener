@@ -1,3 +1,4 @@
+# TODO(deps): Review usages of 'pp' in this file for version-specific changes.
 require "test_helper"
 
 class ApplicationCable::ConnectionTest < ActionCable::Connection::TestCase
