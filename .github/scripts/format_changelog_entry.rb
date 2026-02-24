@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
+# TODO(deps): Review usages of 'date' in this file for version-specific changes.
 # Formats Gemini suggestions into a changelog entry and updates docs
 
 require "time"
